@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD 14)
 add_executable(FinalProject
         main.cpp
         Alec.cpp Alec.h
-        )
+        NHLstats.cpp NHLstats.h)

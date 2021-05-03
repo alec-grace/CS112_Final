@@ -24,6 +24,8 @@ bool playAgain();
 
 vector<string> split(string str, string delimiter);
 
+vector<string> split(string &str);
+
 int randoNum(int start, int end);
 
 void rStrip(string &str, char const &stripChar);
@@ -37,5 +39,7 @@ void lStrip(string &str);
 void strip(string &str, char const &stripChar);
 
 void strip(string &str);
+
+int getIntput(string &message, int beginRange, int endRange);
 
 #endif //FINAL_PROJECT_ALEC_H

@@ -1,11 +1,11 @@
 /*************************************************************************
  * Filename: Alec.h
- * Date: 4/17/2021
+ * Date created: 4/17/2021
  *
- * Description: My personal header file to use across all projects for
- * simple but useful functions like split and playAgain
+ * Description: My personal header file to use across all projects
+ * for simple but useful functions like split and playAgain
  *
- * Last updated: 4/29/2021
+ * Last updated: 5/2/2021
 *************************************************************************/
 
 #include <string>
@@ -21,7 +21,7 @@ bool playAgain() {
     string ans;
     char newAns;
     do {
-        cout << "Would you like to enter another game? (Y/N): ";
+        cout << "Would you like to view more stats? (Y/N): ";
         cin.sync();
         getline(cin, ans);
         newAns = ans[0];
@@ -45,6 +45,24 @@ vector<string> split(string str, string delimiter)
         word = str.substr(0, pos);
         returnList.push_back(word);
         str.erase(0, pos + delimiter.length());
+    }
+
+    returnList.push_back(str);
+
+    return returnList;
+}
+
+vector<string> split(string &str)
+{
+    vector<string> returnList;
+
+    size_t pos = 0;
+    string word;
+
+    while ((pos = str.find(',')) != string::npos) {
+        word = str.substr(0, pos);
+        returnList.push_back(word);
+        str.erase(0, pos + 1);
     }
 
     returnList.push_back(str);
@@ -101,4 +119,37 @@ void strip(string &str) {
 
     while (str.back() == ' ')
         str.pop_back();
+}
+
+//Take input as an integer
+int getIntput(string &message, int beginRange, int endRange) {
+    bool incorrect = true;
+    string strInput;
+    int intput;
+
+    cout << message;
+
+    do
+    {
+        getline(cin, strInput);
+
+        try {
+            intput = stoi(strInput);
+            incorrect = false;
+        }
+        catch (exception &e) {
+            cout << "ERROR: " << e.what() << endl;
+            incorrect = true;
+            intput = -1;
+        }
+
+        if (intput < beginRange || intput > endRange){
+            cout << "Must be a integer between " << to_string(beginRange)
+                << " and " << endRange << "..." << endl << "Choice: ";
+            incorrect = true;
+        }
+
+    } while (incorrect);
+
+    return intput;
 }
