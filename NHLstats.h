@@ -11,9 +11,11 @@
 #ifndef FINALPROJECT_NHLSTATS_H
 #define FINALPROJECT_NHLSTATS_H
 
-#include <string>
 #include <fstream>
+#include <string>
 #include <vector>
+#include "Game.h"
+#include "Referee.h"
 
 using namespace std;
 
@@ -26,5 +28,7 @@ int getHomePenalties();
 int getAwayPenalties();
 
 double getAvg(vector<int> &rawNums);
+
+vector<Ref> getRefStructs();
 
 #endif //FINALPROJECT_NHLSTATS_H

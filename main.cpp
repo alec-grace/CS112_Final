@@ -10,7 +10,9 @@
 #include <string>
 #include <vector>
 #include "Alec.h"
+#include "Game.h"
 #include "NHLstats.h"
+#include "Referee.h"
 
 using namespace std;
 
@@ -36,14 +38,13 @@ int main() {
                     << "2. Do specific officials favor home teams?" << endl
                     << "3. Who gives the most penalty minutes?" << endl
                     << "4. Who gives the lest penalty minutes?" << endl
-                    << "5. What is the average number of penalty minutes per game?" << endl
-                    << "6. Do penalty minutes significantly impact the game?" << endl
-                    << "7. Quit" << endl << endl;
+                    << "5. Do penalty minutes significantly impact the game?" << endl
+                    << "6. Quit" << endl << endl;
 
-                choice = getIntput(choiceMessage, 1, 7);
+                choice = getIntput(choiceMessage, 1, 6);
 
                 switch (choice) {
-                    case 1:
+                    case 1: //Average penalties and penalty minutes
                         homePIMs = getHomePIMs();
                         awayPIMs = getAwayPIMs();
                         homeAvg = getAvg(homePIMs);
@@ -67,8 +68,8 @@ int main() {
                             << endl << "look like there is any advantage to the home team overall."
                             << endl << endl;
                         break;
-                    case 2:
-                        cout << "OK" << endl;
+                    case 2: //Officials most biased towards home teams
+
                         break;
                     default:
                         cout << "Why are you here?" << endl;
@@ -76,10 +77,10 @@ int main() {
                 }
                 break;
             case 2:
-                cout << "--Not implemented--" << endl;
+                cout << "--Players not implemented--" << endl;
                 break;
             case 3:
-                cout << "--Not implemented--" << endl;
+                cout << "--Teams not implemented--" << endl;
                 break;
             case 4:
                 exit(0);
@@ -90,6 +91,17 @@ int main() {
 
     } while (playAgain());
 
+
+//TESTING 123 TESTING 123 TESTING 123
+
+//    vector<Ref> myRefs = getRefStructs();
+//
+//    cout << myRefs[29].name << endl;
+//    for (string id : myRefs[29].game_ids) {
+//        cout << "Game: " << id << endl;
+//    }
+
+//TESTING 123 TESTING 123 TESTING 123
 
 // FILE EDITING FOR DATA CLEANING
 //    fstream infile, outfile;

@@ -5,18 +5,18 @@
  * Description: My personal header file to use across all projects for
  * simple but useful functions like split and playAgain
  *
- * Last updated: 4/29/2021
+ * Last updated: 5/2/2021
 *************************************************************************/
 
 #ifndef FINAL_PROJECT_ALEC_H
 #define FINAL_PROJECT_ALEC_H
 
-#include <string>
-#include <iostream>
-#include <chrono>
-#include <random>
-#include <vector>
 #include <algorithm>
+#include <chrono>
+#include <iostream>
+#include <random>
+#include <string>
+#include <vector>
 
 using namespace std;
 
