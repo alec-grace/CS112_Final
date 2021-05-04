@@ -14,6 +14,8 @@
 #include <vector>
 #include <iostream>
 #include "Alec.h"
+#include "Game.h"
+#include "Referee.h"
 
 using namespace std;
 
@@ -159,4 +161,39 @@ double getAvg(vector<int> &rawNums) {
     double avg = total / rawNums.size();
 
     return avg;
+}
+
+vector<Ref> getRefStructs() {
+
+    bool found;
+    string line;
+    vector<string> splitLine;
+    vector<Ref> refValues;
+
+    fstream infile;
+    infile.open("game_officials.csv", ios::in);
+
+    if (infile.is_open()) {
+        getline(infile, line);
+        while (getline(infile,line)) {
+            found = false;
+            splitLine = split(line);
+            for (Ref &ref : refValues) {
+                if (splitLine[1] == ref.name && splitLine[2] == "Referee") {
+                    ref.game_ids.push_back(splitLine[0]);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found && splitLine[2] == "Referee") {
+                Ref curRef = Ref(splitLine[1], splitLine[0]);
+                refValues.push_back(curRef);
+            }
+        }
+
+    } else {
+        cout << "Could not open \"game_officials.csv\"" << endl;
+    }
+
+    return refValues;
 }
