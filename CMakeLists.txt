@@ -8,4 +8,4 @@ add_executable(FinalProject
         Alec.cpp Alec.h
         NHLstats.cpp NHLstats.h
         Referee.cpp Referee.h
-        Game.h)
+        Game.cpp Game.h)

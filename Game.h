@@ -17,6 +17,7 @@ struct Game{
     string game_id;
     int home_penalties;
     int away_penalties;
+    Game(string game_id, string penalties, char HoA);
 };
 
 #endif //FINALPROJECT_GAME_H

@@ -31,4 +31,15 @@ double getAvg(vector<int> &rawNums);
 
 vector<Ref> getRefStructs();
 
+vector<Game> getGameStructs();
+
+vector<Ref> getCompleteRefs(vector<Ref> refValues,
+                               vector<Game> gameValues);
+
+vector<string> getTop3(vector<Ref> &allRefs);
+
+vector<string> getMostPenalties(vector<Ref> &allRefs);
+
+vector<string> getLeastPenalties(vector<Ref> &allRefs);
+
 #endif //FINALPROJECT_NHLSTATS_H

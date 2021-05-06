@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -20,8 +21,11 @@ int main() {
 
     int choice;
     double homeAvg, awayAvg;
-    string choiceMessage = "Enter Choice: ";
+    string fName, lName, choiceMessage = "Enter Choice: ";
     vector<int> homePIMs, awayPIMs;
+    vector<Ref> completeRefs, allRefs;
+    vector<Game> allGames;
+    vector<string> top3, mostRef;
 
     do
     {
@@ -36,10 +40,9 @@ int main() {
             case 1:             //Official Stats
                 cout << "1. Do officials favor home teams on average?" << endl
                     << "2. Do specific officials favor home teams?" << endl
-                    << "3. Who gives the most penalty minutes?" << endl
-                    << "4. Who gives the lest penalty minutes?" << endl
-                    << "5. Do penalty minutes significantly impact the game?" << endl
-                    << "6. Quit" << endl << endl;
+                    << "3. Who gives the most penalties per game?" << endl
+                    << "4. Who gives the least penalties per game?" << endl
+                    << "5. Quit" << endl << endl;
 
                 choice = getIntput(choiceMessage, 1, 6);
 
@@ -68,9 +71,62 @@ int main() {
                             << endl << "look like there is any advantage to the home team overall."
                             << endl << endl;
                         break;
-                    case 2: //Officials most biased towards home teams
 
+
+                    case 2: //Officials most biased towards home teams
+                        if (!completeRefs.empty()) {
+                            top3 = getTop3(completeRefs);
+                        } else {
+                            completeRefs = getCompleteRefs(getRefStructs(), getGameStructs());
+                            top3 = getTop3(completeRefs);
+                        }
+
+
+                        cout << "It does seem like there are some refs that favor the home " << endl
+                            << "team in terms of penalties. These are the top 3 offenders " << endl
+                            << "and their ratio of home to away penalties: " << endl << endl;
+                        for (string const &ref : top3) {
+                            cout << ref << endl;
+                        }
+                        cout << endl;
                         break;
+
+
+                    case 3:
+                        if (!completeRefs.empty()) {
+                            mostRef = getMostPenalties(completeRefs);
+                        } else {
+                            completeRefs = getCompleteRefs(getRefStructs(), getGameStructs());
+                            mostRef = getMostPenalties(completeRefs);
+                        }
+                        fName = split(mostRef[0], " ")[0];
+                        lName = split(mostRef[0], " ")[1];
+                        fName[0] = toupper(fName[0]);
+                        lName[0] = toupper(lName[0]);
+
+                        cout << "Most penalties per game (minimum 10 games) is: " << fName << " " << lName
+                        << " with " << mostRef[1] << " penalties in " << mostRef[2] << " games." << endl;
+                        cout << endl;
+                        break;
+
+                    case 4:
+                        if (!completeRefs.empty()) {
+                            mostRef = getLeastPenalties(completeRefs);
+                        } else {
+                            completeRefs = getCompleteRefs(getRefStructs(), getGameStructs());
+                            mostRef = getLeastPenalties(completeRefs);
+                        }
+                        fName = split(mostRef[0], " ")[0];
+                        lName = split(mostRef[0], " ")[1];
+                        fName[0] = toupper(fName[0]);
+                        lName[0] = toupper(lName[0]);
+
+                        cout << "Least penalties per game (minimum 10 games) is: " << fName << " " << lName
+                             << " with " << mostRef[1] << " penalties in " << mostRef[2] << " games." << endl;
+                        cout << endl;
+                        break;
+
+
                     default:
                         cout << "Why are you here?" << endl;
                         break;
@@ -94,12 +150,19 @@ int main() {
 
 //TESTING 123 TESTING 123 TESTING 123
 
+////Ref Struct Testing
 //    vector<Ref> myRefs = getRefStructs();
 //
 //    cout << myRefs[29].name << endl;
 //    for (string id : myRefs[29].game_ids) {
 //        cout << "Game: " << id << endl;
 //    }
+////Game Struct Testing
+//    vector<Game> myGames = getGameStructs();
+//
+//    cout << myGames[0].game_id << endl;
+//    cout << myGames[0].home_penalties << endl;
+//    cout << myGames[0].away_penalties << endl;
 
 //TESTING 123 TESTING 123 TESTING 123
 

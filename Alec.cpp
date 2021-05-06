@@ -5,7 +5,7 @@
  * Description: My personal header file to use across all projects
  * for simple but useful functions like split and playAgain
  *
- * Last updated: 5/2/2021
+ * Last updated: 5/5/2021
 *************************************************************************/
 
 #include <string>
@@ -152,4 +152,23 @@ int getIntput(string &message, int beginRange, int endRange) {
     } while (incorrect);
 
     return intput;
+}
+
+int getIndex(string const &findStr, vector<string> const &searchVec) {
+
+    int index;
+    auto it = find(searchVec.begin(), searchVec.end(), findStr);
+
+    if (it != searchVec.end()) {
+        index = it - searchVec.begin();
+    } else {
+        index = -1;
+    }
+
+    return index;
+}
+
+string lowerCase(string &my_str) {
+    transform(my_str.begin(), my_str.end(), my_str.begin(), ::tolower);
+    return my_str;
 }

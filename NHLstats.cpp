@@ -9,6 +9,7 @@
 *************************************************************************/
 
 #include <algorithm>
+#include <cmath>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -179,7 +180,7 @@ vector<Ref> getRefStructs() {
             found = false;
             splitLine = split(line);
             for (Ref &ref : refValues) {
-                if (splitLine[1] == ref.name && splitLine[2] == "Referee") {
+                if (lowerCase(splitLine[1]) == lowerCase(ref.name) && splitLine[2] == "Referee") {
                     ref.game_ids.push_back(splitLine[0]);
                     found = true;
                     break;
@@ -194,6 +195,169 @@ vector<Ref> getRefStructs() {
     } else {
         cout << "Could not open \"game_officials.csv\"" << endl;
     }
+    infile.close();
 
     return refValues;
+}
+
+vector<Game> getGameStructs() {
+
+    bool found;
+    int addHome, addAway;
+    char HoA;
+    string line;
+    vector<string> splitLine;
+    vector<Game> gameValues;
+
+    fstream infile;
+    infile.open("game_team_stats.csv", ios::in);
+
+    if (infile.is_open()) {
+        getline(infile, line);
+        while (getline(infile,line)) {
+            found = false;
+            splitLine = split(line);
+            for (Game &game : gameValues) {
+                if (splitLine[0] == game.game_id) {
+                    found = true;
+                    if (splitLine[2] == "home") {
+                        addAway = stoi(splitLine[10]);
+                        game.away_penalties = addAway;
+                    } else if (splitLine[2] == "away") {
+                        addHome = stoi(splitLine[10]);
+                        game.home_penalties = addHome;
+                    }
+                    break;
+                }
+            }
+            if (!found) {
+                if (splitLine[2] == "home") {
+                    HoA = 'A';
+                } else {
+                    HoA = 'H';
+                }
+                Game curGame = Game(splitLine[0], splitLine[10], HoA);
+                gameValues.push_back(curGame);
+            }
+        }
+    } else {
+        cout << "Could not open \"game_team_stats.csv\"" << endl;
+    }
+    infile.close();
+
+    return gameValues;
+}
+
+vector<Ref> getCompleteRefs(vector<Ref> refValues,
+                               vector<Game> gameValues) {
+    vector<string> currentRef;
+    vector<Ref> completeRefs;
+    string refString;
+
+    for (Ref &curRef : refValues) {
+        for (string game_id : curRef.game_ids) {
+            for (Game &game : gameValues) {
+                if (game_id == game.game_id) {
+                    curRef.awayPens += game.away_penalties;
+                    curRef.homePens += game.home_penalties;
+                    break;
+                }
+            }
+        }
+        completeRefs.push_back(curRef);
+    }
+
+    return completeRefs;
+}
+
+vector<string> getTop3(vector<Ref> &allRefs) {
+    vector<string> top3;
+    vector<Ref> runningTotal;
+    Ref placeholder = Ref("Placeholder", "12345");//had to put this in otherwise the return vector was empty??
+    placeholder.awayPens = 1;
+    runningTotal.push_back(placeholder);
+    int index = 0, filler = 0;
+    string addRef, stringVal, fName, lName;
+    double roundedRatio;
+    char zero = '0';
+
+    for (Ref &curRef : allRefs) {
+        if (curRef.game_ids.size() < 5) {
+            continue;
+        }
+        index = 0;
+        for (Ref &topRef : runningTotal) {
+            if (curRef.getHomeAwayRatio() > topRef.getHomeAwayRatio() && filler >= 3) {
+                runningTotal.erase(runningTotal.begin() + index);
+                runningTotal.push_back(curRef);
+                break;
+            } else if (filler < 3) {
+                if (filler == 1) {
+                    runningTotal.erase(runningTotal.begin());
+                }
+                runningTotal.push_back(curRef);
+                ++filler;
+            }
+            ++index;
+        }
+    }
+
+    for (Ref &top : runningTotal) {
+        roundedRatio = floor((top.getHomeAwayRatio() * 100.0) + 0.5)/100.0;
+        stringVal = to_string(roundedRatio);
+        rStrip(stringVal, zero);
+
+        fName = split(top.name, " ")[0];
+        lName = split(top.name, " ")[1];
+        fName[0] = toupper(fName[0]);
+        lName[0] = toupper(lName[0]);
+
+        addRef = fName + " " + lName + " ratio: " + stringVal;
+        top3.push_back(addRef);
+    }
+
+    return top3;
+}
+
+vector<string> getMostPenalties(vector<Ref> &allRefs) {
+    Ref placeholder("joe", "1234");
+    vector<string> mostRef;
+    vector<Ref> bigMan {placeholder};
+
+    for (Ref &curRef : allRefs) {
+        if (curRef.getPenaltyGameRatio() > bigMan[0].getPenaltyGameRatio()
+        && curRef.game_ids.size() > 10) {
+            bigMan.clear();
+            bigMan.push_back(curRef);
+        }
+    }
+
+    mostRef.push_back(bigMan[0].name);
+    mostRef.push_back(to_string(bigMan[0].getTotalPens()));
+    mostRef.push_back(to_string(bigMan[0].game_ids.size()));
+
+    return mostRef;
+}
+
+vector<string> getLeastPenalties(vector<Ref> &allRefs) {
+    vector<string> leastRef;
+    vector<Ref> bigMan;
+    int counter = 0;
+
+    for (Ref &curRef : allRefs) {
+        if (counter == 0) {
+            bigMan.push_back(curRef);
+            ++counter;
+        } else if (curRef.getPenaltyGameRatio() < bigMan[0].getPenaltyGameRatio()
+            && curRef.game_ids.size() > 10) {
+            bigMan.clear();
+            bigMan.push_back(curRef);
+        }
+    }
+
+    leastRef.push_back(bigMan[0].name);
+    leastRef.push_back(to_string(bigMan[0].getTotalPens()));
+    leastRef.push_back(to_string(bigMan[0].game_ids.size()));
+
+    return leastRef;
 }

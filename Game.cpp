@@ -7,4 +7,11 @@
 
 #include "Game.h"
 
-//Probably won't use this file...
+Game::Game(string game_id, string penalties, char HoA) {
+    this->game_id = game_id;
+    if (HoA == 'A') {
+        away_penalties = stoi(penalties);
+    } else {
+        home_penalties = stoi(penalties);
+    }
+}
