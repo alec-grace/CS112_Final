@@ -10,13 +10,19 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
 struct Ref {
     string name;
     vector<string> game_ids;
+    int homePens;
+    int awayPens;
+    int getTotalPens();
+    double getPenaltyGameRatio();
     Ref(string name, string id);
+    double getHomeAwayRatio();
 };
 
 #endif //FINALPROJECT_REFEREE_H

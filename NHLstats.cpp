@@ -361,3 +361,30 @@ vector<string> getLeastPenalties(vector<Ref> &allRefs) {
 
     return leastRef;
 }
+
+bool playerExists(string &lastName) {
+    bool exists = false;
+    string line;
+    vector<string> curLine;
+
+    fstream infile;
+    infile.open("player_info.csv", ios::in);
+
+    if (infile.is_open()) {
+        while (getline(infile, line)) {
+            curLine = split(line);
+            if (lowerCase(lastName) == lowerCase(curLine[2])) {
+                exists = true;
+                break;
+            }
+        }
+    } else {
+        cout << "Could not open \"player_info.csv\"" << endl;
+        exists = false;
+    }
+
+    infile.close();
+    return exists;
+}
+
+
