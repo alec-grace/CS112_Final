@@ -1,5 +1,5 @@
 /*************************************************************************
- * Filename: Referee.cpp
+ * Filename: Player.cpp
  * Date created: 5/6/2021
  *
  * Description: Implementation file for the Player struct

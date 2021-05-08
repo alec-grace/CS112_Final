@@ -15,6 +15,7 @@
 #include "NHLstats.h"
 #include "Player.h"
 #include "Referee.h"
+#include "Team.h"
 
 using namespace std;
 
@@ -35,6 +36,12 @@ int main() {
     //Player variables
     string playerFirstLast;
     vector<string> playerFullName;
+
+    //Team variables
+    string teamName;
+    vector<string> bestMatch, worstMatch;
+    double faceOffRatioW, faceOffRatioL;
+    vector<double> takeGiveRatios;
 
     do
     {
@@ -203,13 +210,73 @@ int main() {
 
 
             case 3:
-                cout << "--Teams not implemented--" << endl;
+                cout << "Enter a team name:  ";
+                getline(cin, teamName);
+
+                if (teamExists(teamName)) {
+                    cout << "Select statistic to view: " << endl
+                        << "1. Team they win the most against" << endl
+                        << "2. Team they win the least against" << endl
+                        << "3. Face-off win % vs game win/loss" << endl
+                        << "4. Giveaway-takeaway ratio vs win/loss" << endl
+                        << "5. Quit" << endl << endl;
+
+                    choice = getIntput(choiceMessage, 1, 5);
+                    Team thisTeam(teamName);
+
+                    switch (choice) {
+                        case 1:
+                            thisTeam.compareTeams();
+                            bestMatch = thisTeam.getBestMatchup();
+                            cout << "The " << thisTeam.name << " match up best against: " << endl << "the "
+                                << bestMatch[0] << " with a win/loss ratio of " << bestMatch[1] << endl << endl;
+                            break;
+
+                        case 2:
+                            thisTeam.compareTeams();
+                            worstMatch = thisTeam.getWorstMatchup();
+                            cout << "The " << thisTeam.name << " match up worst against: " << endl << "the "
+                                 << worstMatch[0] << " with a win/loss ratio of " << worstMatch[1] << endl << endl;
+                            break;
+
+                        case 3:
+                            faceOffRatioW = thisTeam.getFaceOffsToWins();
+                            faceOffRatioL = thisTeam.getFaceOffsToLosses();
+
+                            cout << "The " << thisTeam.name << " average a " << faceOffRatioW << "% face off"
+                            << " win percentage in games that they win." << endl
+                            << "They also average a " << faceOffRatioL << "% face off win percentage"
+                            << " in games that they lose." << endl << endl;
+                            break;
+
+                        case 4:
+                            takeGiveRatios = thisTeam.getTurnOverRatios();
+
+                            cout << "The " << thisTeam.name << " average " << takeGiveRatios[0]
+                                << " takeaways for every give away in games they win." << endl
+                                << "They average " << takeGiveRatios[1] << " in games they lose." << endl << endl;
+                            break;
+
+                        case 5:
+                            break;
+
+                        default:
+                            cout << "How did you end up here???" << endl;
+                            break;
+
+                    }
+                } else {
+                    cout << "Team: [" << teamName << "] does not exist in this file." << endl << endl;
+                }
                 break;
+
             case 4:
-                exit(0);
+                break;
+
             default:
                 cout << "Why are you here?" << endl;
                 break;
+
         }
 
     } while (playAgain());

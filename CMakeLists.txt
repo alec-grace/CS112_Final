@@ -9,4 +9,5 @@ add_executable(FinalProject
         NHLstats.cpp NHLstats.h
         Referee.cpp Referee.h
         Game.cpp Game.h
-        Player.cpp Player.h)
+        Player.cpp Player.h
+        Team.cpp Team.h)

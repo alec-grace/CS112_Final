@@ -47,4 +47,6 @@ bool playerExists(string &firstName, string &lastName);
 
 Player createPlayer(string &firstName, string &lastName);
 
+bool teamExists(string &teamName);
+
 #endif //FINALPROJECT_NHLSTATS_H

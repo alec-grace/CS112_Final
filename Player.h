@@ -1,5 +1,5 @@
 /*************************************************************************
- * Filename: Referee.h
+ * Filename: Player.h
  * Date created: 5/6/2021
  *
  * Description: Header file for the Player struct
