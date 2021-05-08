@@ -16,6 +16,7 @@
 #include <iostream>
 #include "Alec.h"
 #include "Game.h"
+#include "Player.h"
 #include "Referee.h"
 
 using namespace std;
@@ -387,4 +388,59 @@ bool playerExists(string &lastName) {
     return exists;
 }
 
+Player createPlayer(string &lastName) {
 
+    fstream playerFile, gameFile;
+    playerFile.open("player_info.csv", ios::in);
+    gameFile.open("game_skater_stats.csv", ios::in);
+
+    Player skater("na", "na", "0");
+
+    string line;
+    vector<string> curLine;
+    int counter = 0;
+
+    if (playerFile.is_open() && gameFile.is_open()) {
+        getline(playerFile, line);
+        while (getline(playerFile, line)) {
+            curLine = split(line);
+            if (lowerCase(curLine[2]) == lowerCase(lastName)) {
+                skater.playerID = curLine[0];
+                skater.fName = curLine[1];
+                skater.lName = curLine[2];
+                break;
+            }
+        }
+        playerFile.close();
+
+        getline(gameFile, line);
+        while (getline(gameFile, line)) {
+            ++counter;
+            curLine = split(line);
+            if (curLine[1] == skater.playerID) {
+                skater.game_ids.push_back(curLine[0]);
+                try {
+                    skater.assists += stoi(curLine[4]);
+                    skater.goals += stoi(curLine[5]);
+                    if (curLine[13] != "NA")
+                        skater.takeaways += stoi(curLine[13]);
+                    if (curLine[14] != "NA")
+                        skater.giveaways += stoi(curLine[14]);
+                    if (curLine[17] != "NA")
+                        skater.blockedShots += stoi(curLine[17]);
+                    skater.plusMinus += stoi(curLine[18]);
+                    skater.pims += stoi(curLine[10]);
+                } catch (exception &e) {
+                    cout << endl << "Error: " << e.what() << " at line " << counter << endl;
+                }
+            }
+        }
+
+        gameFile.close();
+    } else {
+        cout << "Could not open one of the files" << endl;
+        Player("Doesn't", "Exist", "1111");
+    }
+
+    return skater;
+}

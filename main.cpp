@@ -13,19 +13,27 @@
 #include "Alec.h"
 #include "Game.h"
 #include "NHLstats.h"
+#include "Player.h"
 #include "Referee.h"
 
 using namespace std;
 
 int main() {
 
+    //General variables
     int choice;
+    string choiceMessage = "Enter Choice: ";
+    vector<Game> allGames;
+
+    //Referee variables
     double homeAvg, awayAvg;
-    string fName, lName, choiceMessage = "Enter Choice: ";
+    string refLastName, refFirstName;
     vector<int> homePIMs, awayPIMs;
     vector<Ref> completeRefs, allRefs;
-    vector<Game> allGames;
     vector<string> top3, mostRef;
+
+    //Player variables
+    string playerLastName;
 
     do
     {
@@ -37,15 +45,17 @@ int main() {
         choice = getIntput(choiceMessage, 1, 4);
 
         switch (choice) {
-            case 1:             //Official Stats
-                cout << "1. Do officials favor home teams on average?" << endl
+    ////Official Stats
+            case 1:
+                cout << "\tSelect a question to answer: "
+                    << "1. Do officials favor home teams on average?" << endl
                     << "2. Do specific officials favor home teams?" << endl
                     << "3. Who gives the most penalties per game?" << endl
                     << "4. Who gives the least penalties per game?" << endl
                     << "5. Quit" << endl << endl;
 
                 choice = getIntput(choiceMessage, 1, 6);
-
+            //Referee calculations
                 switch (choice) {
                     case 1: //Average penalties and penalty minutes
                         homePIMs = getHomePIMs();
@@ -99,12 +109,12 @@ int main() {
                             completeRefs = getCompleteRefs(getRefStructs(), getGameStructs());
                             mostRef = getMostPenalties(completeRefs);
                         }
-                        fName = split(mostRef[0], " ")[0];
-                        lName = split(mostRef[0], " ")[1];
-                        fName[0] = toupper(fName[0]);
-                        lName[0] = toupper(lName[0]);
+                        refLastName = split(mostRef[0], " ")[0];
+                        refFirstName = split(mostRef[0], " ")[1];
+                        refLastName[0] = toupper(refLastName[0]);
+                        refFirstName[0] = toupper(refFirstName[0]);
 
-                        cout << "Most penalties per game (minimum 10 games) is: " << fName << " " << lName
+                        cout << "Most penalties per game (minimum 10 games) is: " << refLastName << " " << refFirstName
                         << " with " << mostRef[1] << " penalties in " << mostRef[2] << " games." << endl;
                         cout << endl;
                         break;
@@ -116,14 +126,17 @@ int main() {
                             completeRefs = getCompleteRefs(getRefStructs(), getGameStructs());
                             mostRef = getLeastPenalties(completeRefs);
                         }
-                        fName = split(mostRef[0], " ")[0];
-                        lName = split(mostRef[0], " ")[1];
-                        fName[0] = toupper(fName[0]);
-                        lName[0] = toupper(lName[0]);
+                        refLastName = split(mostRef[0], " ")[0];
+                        refFirstName = split(mostRef[0], " ")[1];
+                        refLastName[0] = toupper(refLastName[0]);
+                        refFirstName[0] = toupper(refFirstName[0]);
 
-                        cout << "Least penalties per game (minimum 10 games) is: " << fName << " " << lName
+                        cout << "Least penalties per game (minimum 10 games) is: " << refLastName << " " << refFirstName
                              << " with " << mostRef[1] << " penalties in " << mostRef[2] << " games." << endl;
                         cout << endl;
+                        break;
+
+                    case 5:
                         break;
 
 
@@ -132,9 +145,52 @@ int main() {
                         break;
                 }
                 break;
+
+
+    ////Player Stats
             case 2:
-                cout << "--Players not implemented--" << endl;
+                cout << "Enter a players last name: ";
+                getline(cin, playerLastName);
+                if (playerExists(playerLastName)) {
+                    cout << "Select a statistic to view: " << endl
+                        << "1. Average points per game" << endl
+                        << "2. Average penalty minutes per game" << endl
+                        << "3. Little things that contribute" << endl
+                        << "4. Quit" << endl << endl;
+
+                    choice = getIntput(choiceMessage, 1, 4);
+                    Player player = createPlayer(playerLastName);
+
+                    switch (choice) {
+                        case 1:
+                            cout << player.fName << " " << playerLastName << " averages "
+                            << player.getAvgPoints() << " points per game. " << endl;
+                            break;
+
+                        case 2:
+                            cout << player.fName << " " << playerLastName << " averages "
+                            << player.getAvgPims() << " penalty minutes per game." << endl;
+                            break;
+
+                        case 3:
+                            cout << "To go" << endl;
+                            break;
+
+                        case 4:
+                            break;
+
+                        default:
+                            cout << "To bed" << endl;
+                            break;
+
+                    }
+                } else {
+                    cout << "No player with the last name \"" << playerLastName
+                        << "\" exists in this file. " << endl << endl;
+                }
                 break;
+
+
             case 3:
                 cout << "--Teams not implemented--" << endl;
                 break;
@@ -148,28 +204,28 @@ int main() {
     } while (playAgain());
 
 
-//TESTING 123 TESTING 123 TESTING 123
+////TESTING 123 TESTING 123 TESTING 123
 
-////Ref Struct Testing
+//Ref Struct Testing
 //    vector<Ref> myRefs = getRefStructs();
 //
 //    cout << myRefs[29].name << endl;
 //    for (string id : myRefs[29].game_ids) {
 //        cout << "Game: " << id << endl;
 //    }
-////Game Struct Testing
+//Game Struct Testing
 //    vector<Game> myGames = getGameStructs();
 //
 //    cout << myGames[0].game_id << endl;
 //    cout << myGames[0].home_penalties << endl;
 //    cout << myGames[0].away_penalties << endl;
 
-//TESTING 123 TESTING 123 TESTING 123
+////TESTING 123 TESTING 123 TESTING 123
 
-// FILE EDITING FOR DATA CLEANING
+//// FILE EDITING FOR DATA CLEANING
 //    fstream infile, outfile;
-//    infile.open("game_team_stats.csv", ios::in);
-//    outfile.open("new_game_team.csv", ios::out);
+//    infile.open("og_player_info.csv", ios::in);
+//    outfile.open("player_info.csv", ios::out);
 //
 //    string line;
 //    vector<string> curLine;
@@ -177,14 +233,16 @@ int main() {
 //    if (infile.is_open() && outfile.is_open()) {
 //        while (getline(infile, line)) {
 //            curLine = split(line);
-//            if (curLine[10] == "NA") {
-//                curLine.erase(curLine.begin()+10);
-//                curLine.insert(curLine.begin()+10, "-1");
-//            }
+//
 //            for (string &item : curLine) {
-//                outfile << item << ",";
+//                if (find(curLine.begin(), curLine.end(), item) == curLine.end() - 1) {
+//                    strip(item, '"');
+//                    outfile << item << endl;
+//                } else {
+//                    strip(item, '"');
+//                    outfile << item << ",";
+//                }
 //            }
-//            outfile << endl;
 //        }
 //    }
 //
