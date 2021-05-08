@@ -43,8 +43,8 @@ vector<string> getMostPenalties(vector<Ref> &allRefs);
 
 vector<string> getLeastPenalties(vector<Ref> &allRefs);
 
-bool playerExists(string &lastName);
+bool playerExists(string &firstName, string &lastName);
 
-Player createPlayer(string &lastName);
+Player createPlayer(string &firstName, string &lastName);
 
 #endif //FINALPROJECT_NHLSTATS_H

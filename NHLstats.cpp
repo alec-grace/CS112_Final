@@ -363,7 +363,7 @@ vector<string> getLeastPenalties(vector<Ref> &allRefs) {
     return leastRef;
 }
 
-bool playerExists(string &lastName) {
+bool playerExists(string &firstName, string &lastName) {
     bool exists = false;
     string line;
     vector<string> curLine;
@@ -374,7 +374,8 @@ bool playerExists(string &lastName) {
     if (infile.is_open()) {
         while (getline(infile, line)) {
             curLine = split(line);
-            if (lowerCase(lastName) == lowerCase(curLine[2])) {
+            if (lowerCase(lastName) == lowerCase(curLine[2])
+            && lowerCase(firstName) == lowerCase(curLine[1])) {
                 exists = true;
                 break;
             }
@@ -388,13 +389,18 @@ bool playerExists(string &lastName) {
     return exists;
 }
 
-Player createPlayer(string &lastName) {
+Player createPlayer(string &firstName, string &lastName) {
+////Could have moved this to the Player constructor but
+////did not realize until too late so I don't have time now
 
     fstream playerFile, gameFile;
     playerFile.open("player_info.csv", ios::in);
     gameFile.open("game_skater_stats.csv", ios::in);
+    string noSkaterFirst = "Doesn't";
+    string noSkaterLast = "Exist";
+    string noSkaterID = "1111";
 
-    Player skater("na", "na", "0");
+    Player skater(noSkaterFirst, noSkaterLast, noSkaterID);
 
     string line;
     vector<string> curLine;
@@ -404,10 +410,13 @@ Player createPlayer(string &lastName) {
         getline(playerFile, line);
         while (getline(playerFile, line)) {
             curLine = split(line);
-            if (lowerCase(curLine[2]) == lowerCase(lastName)) {
+            if (lowerCase(firstName) == lowerCase(curLine[1])
+            && lowerCase(lastName) == lowerCase(curLine[2])) {
                 skater.playerID = curLine[0];
                 skater.fName = curLine[1];
                 skater.lName = curLine[2];
+                skater.fName[0] = toupper(skater.fName[0]);
+                skater.lName[0] = toupper(skater.lName[0]);
                 break;
             }
         }
@@ -439,7 +448,7 @@ Player createPlayer(string &lastName) {
         gameFile.close();
     } else {
         cout << "Could not open one of the files" << endl;
-        Player("Doesn't", "Exist", "1111");
+        Player(noSkaterFirst, noSkaterLast, noSkaterID);
     }
 
     return skater;

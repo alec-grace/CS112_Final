@@ -33,7 +33,8 @@ int main() {
     vector<string> top3, mostRef;
 
     //Player variables
-    string playerLastName;
+    string playerFirstLast;
+    vector<string> playerFullName;
 
     do
     {
@@ -149,9 +150,16 @@ int main() {
 
     ////Player Stats
             case 2:
-                cout << "Enter a players last name: ";
-                getline(cin, playerLastName);
-                if (playerExists(playerLastName)) {
+                do {
+                    cout << "Enter a players full name: ";
+                    getline(cin, playerFirstLast);
+                    playerFullName = split(playerFirstLast, " ");
+                    if (playerFullName.size() != 2) {
+                        cout << "Must enter in format [first name] [space] [last name]" << endl;
+                    }
+                } while (playerFullName.size() != 2);
+
+                if (playerExists(playerFullName[0], playerFullName[1])) {
                     cout << "Select a statistic to view: " << endl
                         << "1. Average points per game" << endl
                         << "2. Average penalty minutes per game" << endl
@@ -159,34 +167,37 @@ int main() {
                         << "4. Quit" << endl << endl;
 
                     choice = getIntput(choiceMessage, 1, 4);
-                    Player player = createPlayer(playerLastName);
+                    Player player = createPlayer(playerFullName[0], playerFullName[1]);
 
                     switch (choice) {
                         case 1:
-                            cout << player.fName << " " << playerLastName << " averages "
-                            << player.getAvgPoints() << " points per game. " << endl;
+                            cout << player.fName << " " << player.lName << " averages "
+                            << player.getAvgPoints() << " points per game. " << endl << endl;
                             break;
 
                         case 2:
-                            cout << player.fName << " " << playerLastName << " averages "
-                            << player.getAvgPims() << " penalty minutes per game." << endl;
+                            cout << player.fName << " " << player.lName << " averages "
+                            << player.getAvgPims() << " penalty minutes per game." << endl << endl;
                             break;
 
                         case 3:
-                            cout << "To go" << endl;
+                            cout << player.fName << " " << player.lName << " averages " << endl
+                                << player.getAvgBlocked() << " blocked shots per game," << endl
+                                << player.getTurnoverRatio() << " takeaways for every give away, " << endl
+                                << "and has a " << player.plusMinus << " plus/minus overall." << endl << endl;
                             break;
 
                         case 4:
                             break;
 
                         default:
-                            cout << "To bed" << endl;
+                            cout << "How did you get here??" << endl;
                             break;
 
                     }
                 } else {
-                    cout << "No player with the last name \"" << playerLastName
-                        << "\" exists in this file. " << endl << endl;
+                    cout << "No player with the name \"" << playerFullName[0]
+                        << playerFullName[1] << "\" exists in this file. " << endl << endl;
                 }
                 break;
 

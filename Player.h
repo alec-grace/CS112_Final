@@ -25,10 +25,11 @@ struct Player{
     int giveaways;
     int blockedShots;
     int plusMinus;
-    Player(string firstName, string lastName, string id);
+    Player(string &firstName, string &lastName, string &id);
     double getAvgPoints();
     double getAvgPims();
     double getTurnoverRatio();
+    double getAvgBlocked();
 };
 
 #endif //FINALPROJECT_PLAYER_H

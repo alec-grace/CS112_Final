@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Player::Player(string firstName, string lastName, string id) {
+Player::Player(string &firstName, string &lastName, string &id) {
     fName = firstName;
     lName = lastName;
     playerID = id;
@@ -45,4 +45,12 @@ double Player::getTurnoverRatio() {
     ratio = round2(ratio);
 
     return ratio;
+}
+
+double Player::getAvgBlocked() {
+
+    double avgBlocked = (double) blockedShots / game_ids.size();
+    avgBlocked = round2(avgBlocked);
+
+    return avgBlocked;
 }
