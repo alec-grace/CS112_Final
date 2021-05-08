@@ -17,6 +17,7 @@
 
 using namespace std;
 
+//Get yes or no input from user
 bool playAgain() {
     string ans;
     char newAns;
@@ -34,6 +35,7 @@ bool playAgain() {
     }
 }
 
+//Split a string with any string delimiter
 vector<string> split(string str, string delimiter)
 {
     vector<string> returnList;
@@ -52,6 +54,7 @@ vector<string> split(string str, string delimiter)
     return returnList;
 }
 
+//Split a string with default comma as delimiter
 vector<string> split(string &str)
 {
     vector<string> returnList;
@@ -70,6 +73,7 @@ vector<string> split(string &str)
     return returnList;
 }
 
+//Get a random integer within a range
 int randoNum(int start, int end)
 {
     unsigned seed = chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -79,30 +83,35 @@ int randoNum(int start, int end)
     return randDistro(rand);
 }
 
+//Remove all specific chars from back of string
 void rStrip(string &str, char const &stripChar) {
 
     while (str.back() == stripChar)
         str.pop_back();
 }
 
+//Remove all spaces from back of string
 void rStrip(string &str) {
 
     while (str.back() == ' ')
         str.pop_back();
 }
 
+//Remove all specific chars from front of string
 void lStrip(string &str, char const &stripChar) {
 
     while (str.front() == stripChar)
         str.erase(str.begin());
 }
 
+//Remove all spaces from front of string
 void lStrip(string &str) {
 
     while (str.front() == ' ')
         str.erase(str.begin());
 }
 
+//Remove all specific chars from front and back of string
 void strip(string &str, char const &stripChar) {
 
     while (str.front() == stripChar)
@@ -112,6 +121,7 @@ void strip(string &str, char const &stripChar) {
         str.pop_back();
 }
 
+//Remove all spaces from front and back of string
 void strip(string &str) {
 
     while (str.front() == ' ')
@@ -121,7 +131,7 @@ void strip(string &str) {
         str.pop_back();
 }
 
-//Take input as an integer
+//Take input as an integer within a range
 int getIntput(string &message, int beginRange, int endRange) {
     bool incorrect = true;
     string strInput;
@@ -154,6 +164,34 @@ int getIntput(string &message, int beginRange, int endRange) {
     return intput;
 }
 
+//Take input as an integer, no range
+int getIntput(string &message) {
+    bool incorrect = true;
+    string strInput;
+    int intput;
+
+    cout << message;
+
+    do
+    {
+        getline(cin, strInput);
+
+        try {
+            intput = stoi(strInput);
+            incorrect = false;
+        }
+        catch (exception &e) {
+            cout << "ERROR: " << e.what() << endl;
+            incorrect = true;
+            intput = -1;
+        }
+
+    } while (incorrect);
+
+    return intput;
+}
+
+//Get the index of a specific string in a vector of strings
 int getIndex(string const &findStr, vector<string> const &searchVec) {
 
     int index;
@@ -168,7 +206,16 @@ int getIndex(string const &findStr, vector<string> const &searchVec) {
     return index;
 }
 
+//Changes whole string to lowercase
 string lowerCase(string &my_str) {
     transform(my_str.begin(), my_str.end(), my_str.begin(), ::tolower);
     return my_str;
+}
+
+//Rounds a double to 2 decimal places
+double round2(double &toRound) {
+    double rounded;
+    rounded = floor((toRound * 100.0) + 0.5)/100.0;
+
+    return rounded;
 }

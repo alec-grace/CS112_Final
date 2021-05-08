@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include "Game.h"
+#include "Player.h"
 #include "Referee.h"
 
 using namespace std;
@@ -44,6 +45,6 @@ vector<string> getLeastPenalties(vector<Ref> &allRefs);
 
 bool playerExists(string &lastName);
 
-
+Player createPlayer(string &lastName);
 
 #endif //FINALPROJECT_NHLSTATS_H

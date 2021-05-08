@@ -46,4 +46,6 @@ int getIndex(string const &findStr, vector<string> const &searchVec);
 
 string lowerCase(string &my_str);
 
+double round2(double &toRound);
+
 #endif //FINAL_PROJECT_ALEC_H
