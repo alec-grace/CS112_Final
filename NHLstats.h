@@ -5,7 +5,7 @@
  * Description: Header file for the functions that retrieve
  * statistics in my final project.
  *
- * Last updated: 5/2/2021
+ * Last updated: 5/8/2021 - final commit
 *************************************************************************/
 
 #ifndef FINALPROJECT_NHLSTATS_H
