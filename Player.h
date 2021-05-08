@@ -3,6 +3,7 @@
  * Date created: 5/6/2021
  *
  * Description: Header file for the Player struct
+ * - final commit
 *************************************************************************/
 
 #ifndef FINALPROJECT_PLAYER_H

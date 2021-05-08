@@ -3,6 +3,7 @@
  * Date created: 5/8/2021
  *
  * Description: Header file for the Team struct
+ * - final commit
 *************************************************************************/
 
 #ifndef FINALPROJECT_TEAM_H
