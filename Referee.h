@@ -3,6 +3,7 @@
  * Date created: 5/3/2021
  *
  * Description: Header file for the Ref struct
+ * - final commit
 *************************************************************************/
 
 #ifndef FINALPROJECT_REFEREE_H

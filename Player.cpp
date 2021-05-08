@@ -3,6 +3,7 @@
  * Date created: 5/6/2021
  *
  * Description: Implementation file for the Player struct
+ * - final commit
 *************************************************************************/
 
 #include "Alec.h"

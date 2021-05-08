@@ -1,7 +1,9 @@
 /********************************************************************
  * Filename: main.cpp
  * Author: Alec Grace
- * Description:
+ * Description: A rather comprehensive program to obtain oddly
+ * specific statistics from a database of NHL stats as my final
+ * project for CS112 - final commit
 ********************************************************************/
 
 #include <algorithm>

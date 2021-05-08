@@ -3,6 +3,7 @@
  * Date created: 5/8/2021
  *
  * Description: Implementation file for the Team struct
+ * - final commit
 *************************************************************************/
 
 #include <algorithm>

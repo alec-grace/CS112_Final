@@ -5,7 +5,7 @@
  * Description: Source file for the functions that retrieve
  * statistics in my final project.
  *
- * Last updated: 5/2/2021
+ * Last updated: 5/8/2021 - final commit
 *************************************************************************/
 
 #include <algorithm>
@@ -452,4 +452,28 @@ Player createPlayer(string &firstName, string &lastName) {
     }
 
     return skater;
+}
+
+bool teamExists(string &teamName) {
+
+    bool exists = false;
+    string line;
+    vector<string> curLine;
+    fstream teamFile;
+    teamFile.open("team_info.csv", ios::in);
+
+    if (teamFile.is_open()) {
+        while (getline(teamFile, line)) {
+            curLine = split(line);
+            if (lowerCase(curLine[3]) == teamName) {
+                exists = true;
+                break;
+            }
+        }
+    } else {
+        cout << "Could not open \"team_info.csv\"" << endl;
+        exists = false;
+    }
+
+    return exists;
 }

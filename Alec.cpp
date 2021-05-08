@@ -5,7 +5,7 @@
  * Description: My personal header file to use across all projects
  * for simple but useful functions like split and playAgain
  *
- * Last updated: 5/5/2021
+ * Last updated: 5/8/2021 - final commit
 *************************************************************************/
 
 #include <string>
